@@ -24,6 +24,19 @@ namespace checkUpdate
         public void UpdatevalueJSON(string key, string valuenew)
         {
             jo[key] = valuenew;
+            string output = JsonConvert.SerializeObject(jo, Formatting.Indented);
+            File.WriteAllText("config.json", output);
+        }
+        public void UpdatevalueJSON(string[,] mangNx2)
+        {
+            for (int i = 0; i < mangNx2.GetLength(0); i++)
+            {
+                string key = mangNx2[i, 0];
+                string value = mangNx2[i, 1];
+                jo[key] = value;
+            }
+            string output = JsonConvert.SerializeObject(jo, Formatting.Indented);
+            File.WriteAllText("config.json", output);
         }
     }
 }

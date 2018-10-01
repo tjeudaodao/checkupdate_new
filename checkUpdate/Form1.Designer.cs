@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lbtenungdung = new System.Windows.Forms.Label();
             this.lbnoidung = new System.Windows.Forms.Label();
-            this.pbloading = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pbloading)).BeginInit();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbtenungdung
@@ -56,17 +56,6 @@
             this.lbnoidung.Text = "Đang kiểm tra cập nhật ...";
             this.lbnoidung.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pbloading
-            // 
-            this.pbloading.Image = ((System.Drawing.Image)(resources.GetObject("pbloading.Image")));
-            this.pbloading.Location = new System.Drawing.Point(192, 100);
-            this.pbloading.Name = "pbloading";
-            this.pbloading.Size = new System.Drawing.Size(147, 95);
-            this.pbloading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbloading.TabIndex = 1;
-            this.pbloading.TabStop = false;
-            this.pbloading.Visible = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -77,13 +66,23 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "hts";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(143, 100);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(204, 88);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DimGray;
+            this.BackColor = System.Drawing.Color.RoyalBlue;
             this.ClientSize = new System.Drawing.Size(500, 200);
-            this.Controls.Add(this.pbloading);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lbnoidung);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbtenungdung);
@@ -95,7 +94,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "check update";
-            ((System.ComponentModel.ISupportInitialize)(this.pbloading)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -105,8 +104,8 @@
 
         private System.Windows.Forms.Label lbtenungdung;
         private System.Windows.Forms.Label lbnoidung;
-        private System.Windows.Forms.PictureBox pbloading;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

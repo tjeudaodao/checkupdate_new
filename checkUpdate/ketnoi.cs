@@ -34,10 +34,9 @@ namespace checkUpdate
                 {
                     conn.Open();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    MessageBox.Show("Không kết nối được đến máy chủ ", "Lỗi");
+                    ghiloi.WriteLogError(ex);
                 }
             }
         }
