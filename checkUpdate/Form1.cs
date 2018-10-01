@@ -60,10 +60,6 @@ namespace checkUpdate
                     {
                         HamKiemtraphienban(tenfile, "khuyenmaicnf");
                     }
-                    else
-                    {
-                        Process.GetCurrentProcess().Kill();
-                    }
                 }
             }
             catch
