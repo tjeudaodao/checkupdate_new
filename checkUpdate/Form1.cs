@@ -10,33 +10,24 @@ using System.Windows.Forms;
 
 using System.IO;
 using System.Diagnostics;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace checkUpdate
 {
     public partial class Form1 : Form
     {
-        Thread hts;
-
-        string serverMysql = "27.72.29.28";
         string serverFtp = "ftp://27.72.29.28/";
         string sophienban = null;
         xulyJSON xlJson;
 
         string tenfile;
+        string sophienbanSV = null;
 
         public Form1()
         {
             InitializeComponent();
             xlJson = new xulyJSON();
             sophienban = xlJson.ReadJSON("phienban");
-
-            //hts = new Thread(Kiemtra);
-            //hts.IsBackground = true;
-            //hts.Start();
+            sophienbanSV = xlJson.ReadJSON("phienbanSV");
 
             Kiemtra();
         }
@@ -72,12 +63,7 @@ namespace checkUpdate
         }
         public void HamKiemtraphienban(string tenungdung,string tentrenSERVER)
         {
-            //lbtenungdung.Invoke(new MethodInvoker(delegate ()
-            //{
-            //    lbtenungdung.Text = tenungdung;
-            //}));
-            var con = ketnoi.Khoitao(serverMysql);
-            string phienbanSV = con.GetPhienban(tentrenSERVER);
+            lbtenungdung.Text = tenungdung;
             lbnoidung.Text = "Có phiên bản mới !. Đang cập nhật ...";
             ftp ftpH = new ftp(serverFtp, "hts", "hoanglaota");
             string[] danhsachFILEDOWN = ftpH.directoryListSimple("app/luutru/" + tentrenSERVER + "/");
@@ -97,7 +83,7 @@ namespace checkUpdate
                 }
                 string[,] giatriupdate = new string[,]
                 {
-                        {"phienban",phienbanSV},
+                        {"phienban",sophienbanSV},
                         {"ngaycapnhat", DateTime.Now.ToString("dd-MM-yyyy") }
                 };
                 xlJson.UpdatevalueJSON(giatriupdate);
