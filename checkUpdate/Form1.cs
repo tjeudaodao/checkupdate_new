@@ -21,8 +21,8 @@ namespace checkUpdate
     {
         Thread hts;
 
-        string serverMysql = null;
-        string serverFtp = null;
+        string serverMysql = "27.72.29.28";
+        string serverFtp = @"ftp://27.72.29.28/";
         string sophienban = null;
         xulyJSON xlJson;
 
@@ -32,13 +32,13 @@ namespace checkUpdate
         {
             InitializeComponent();
             xlJson = new xulyJSON();
-            serverMysql = xlJson.ReadJSON("serverMysql");
-            serverFtp = xlJson.ReadJSON("serverFtp");
             sophienban = xlJson.ReadJSON("phienban");
 
             hts = new Thread(Kiemtra);
             hts.IsBackground = true;
             hts.Start();
+
+            
         }
         public void Kiemtra()
         {
@@ -61,9 +61,11 @@ namespace checkUpdate
                         HamKiemtraphienban(tenfile, "khuyenmaicnf");
                     }
                 }
+                Application.Exit();
             }
             catch
             {
+                ghiloi.WriteLogError("co loi kiem tra phien ban");
                 Khoichay(tenfile);
             }
             
@@ -76,39 +78,44 @@ namespace checkUpdate
             }));
             var con = ketnoi.Khoitao(serverMysql);
             string phienbanSV = con.GetPhienban(tentrenSERVER);
-            
-            if (phienbanSV != sophienban)
+            lbnoidung.Invoke(new MethodInvoker(delegate ()
             {
-                lbnoidung.Invoke(new MethodInvoker(delegate ()
+                lbnoidung.Text = "Có phiên bản mới !. Đang cập nhật ...";
+            }));
+            
+            ftp ftpH = new ftp(serverFtp, "hts", "hoanglaota");
+            string[] danhsachFILEDOWN = ftpH.directoryListSimple("app/luutru/" + tentrenSERVER + "/");
+            if (danhsachFILEDOWN != null)
+            {
+                if (!Directory.Exists(Application.StartupPath + @"\backup\"))
                 {
-                    lbnoidung.Text = "Có phiên bản mới !. Đang cập nhật ...";
-                }));
-                
-               
-                ftp ftpH = new ftp(serverFtp, "hts", "hoanglaota");
-                string[] danhsachFILEDOWN = ftpH.directoryListSimple("app/luutru/" + tentrenSERVER + "/");
-                if (danhsachFILEDOWN != null)
+                    Directory.CreateDirectory(Application.StartupPath + @"\backup\");
+                }
+                for (int i = 0; i < danhsachFILEDOWN.Length; i++)
                 {
-                    for (int i = 0; i < danhsachFILEDOWN.Length; i++)
+                    if (File.Exists(Application.StartupPath + @"\" + danhsachFILEDOWN[i]))
                     {
-                        ftpH.download("app/luutru/" + tentrenSERVER + "/" + danhsachFILEDOWN[i], Application.StartupPath + "/" + danhsachFILEDOWN[i]);
+                        File.Copy(Application.StartupPath + @"\" + danhsachFILEDOWN[i], Application.StartupPath + @"\backup\" + danhsachFILEDOWN[i]);
                     }
-                    string[,] giatriupdate = new string[,]
-                    {
+                    ftpH.download("app/luutru/" + tentrenSERVER + "/" + danhsachFILEDOWN[i], Application.StartupPath + @"\" + danhsachFILEDOWN[i]);
+                }
+                string[,] giatriupdate = new string[,]
+                {
                         {"phienban",phienbanSV},
                         {"ngaycapnhat", DateTime.Now.ToString("dd-MM-yyyy") }
-                    };
-                    xlJson.UpdatevalueJSON(giatriupdate);
-                }
-                
+                };
+                xlJson.UpdatevalueJSON(giatriupdate);
             }
+
+
             Khoichay(tenungdung);
         }
         public void Khoichay(string tenungdung)
         {
-                ProcessStartInfo startInfo = new ProcessStartInfo(Application.StartupPath + "/" + tenungdung + ".exe");
-                startInfo.UseShellExecute = true;
-                Process.Start(startInfo);
+            ProcessStartInfo startInfo = new ProcessStartInfo(Application.StartupPath + "/" + tenungdung + ".exe");
+            startInfo.UseShellExecute = true;
+            Process.Start(startInfo);
+            Application.Exit();
         }
     }
 }

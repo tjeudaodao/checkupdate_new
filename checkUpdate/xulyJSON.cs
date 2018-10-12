@@ -15,7 +15,7 @@ namespace checkUpdate
         private JObject jo = null;
         public xulyJSON()
         {
-             jo = JObject.Parse(File.ReadAllText("config.json"));
+             jo = JObject.Parse(File.ReadAllText("capnhat.json"));
         }
         public string ReadJSON(string key)
         {
@@ -25,7 +25,7 @@ namespace checkUpdate
         {
             jo[key] = valuenew;
             string output = JsonConvert.SerializeObject(jo, Formatting.Indented);
-            File.WriteAllText("config.json", output);
+            File.WriteAllText("capnhat.json", output);
         }
         public void UpdatevalueJSON(string[,] mangNx2)
         {
@@ -36,7 +36,7 @@ namespace checkUpdate
                 jo[key] = value;
             }
             string output = JsonConvert.SerializeObject(jo, Formatting.Indented);
-            File.WriteAllText("config.json", output);
+            File.WriteAllText("capnhat.json", output);
         }
     }
 }
