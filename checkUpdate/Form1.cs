@@ -22,7 +22,7 @@ namespace checkUpdate
         Thread hts;
 
         string serverMysql = "27.72.29.28";
-        string serverFtp = @"ftp://27.72.29.28/";
+        string serverFtp = "ftp://27.72.29.28/";
         string sophienban = null;
         xulyJSON xlJson;
 
@@ -34,11 +34,11 @@ namespace checkUpdate
             xlJson = new xulyJSON();
             sophienban = xlJson.ReadJSON("phienban");
 
-            hts = new Thread(Kiemtra);
-            hts.IsBackground = true;
-            hts.Start();
+            //hts = new Thread(Kiemtra);
+            //hts.IsBackground = true;
+            //hts.Start();
 
-            
+            Kiemtra();
         }
         public void Kiemtra()
         {
@@ -63,26 +63,22 @@ namespace checkUpdate
                 }
                 Application.Exit();
             }
-            catch
+            catch(Exception ex)
             {
-                ghiloi.WriteLogError("co loi kiem tra phien ban");
+                ghiloi.WriteLogError(ex);
                 Khoichay(tenfile);
             }
             
         }
         public void HamKiemtraphienban(string tenungdung,string tentrenSERVER)
         {
-            lbtenungdung.Invoke(new MethodInvoker(delegate ()
-            {
-                lbtenungdung.Text = tenungdung;
-            }));
+            //lbtenungdung.Invoke(new MethodInvoker(delegate ()
+            //{
+            //    lbtenungdung.Text = tenungdung;
+            //}));
             var con = ketnoi.Khoitao(serverMysql);
             string phienbanSV = con.GetPhienban(tentrenSERVER);
-            lbnoidung.Invoke(new MethodInvoker(delegate ()
-            {
-                lbnoidung.Text = "Có phiên bản mới !. Đang cập nhật ...";
-            }));
-            
+            lbnoidung.Text = "Có phiên bản mới !. Đang cập nhật ...";
             ftp ftpH = new ftp(serverFtp, "hts", "hoanglaota");
             string[] danhsachFILEDOWN = ftpH.directoryListSimple("app/luutru/" + tentrenSERVER + "/");
             if (danhsachFILEDOWN != null)
@@ -112,6 +108,16 @@ namespace checkUpdate
         }
         public void Khoichay(string tenungdung)
         {
+            Process[] GetPArry = Process.GetProcesses();
+            foreach (Process testProcess in GetPArry)
+            {
+                string ProcessName = testProcess.ProcessName;
+                if (ProcessName.CompareTo(tenungdung) == 0)
+                {
+                    testProcess.Kill();
+                }
+
+            }
             ProcessStartInfo startInfo = new ProcessStartInfo(Application.StartupPath + "/" + tenungdung + ".exe");
             startInfo.UseShellExecute = true;
             Process.Start(startInfo);
