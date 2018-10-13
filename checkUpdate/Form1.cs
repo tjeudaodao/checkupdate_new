@@ -77,7 +77,7 @@ namespace checkUpdate
                 {
                     if (File.Exists(Application.StartupPath + @"\" + danhsachFILEDOWN[i]))
                     {
-                        File.Copy(Application.StartupPath + @"\" + danhsachFILEDOWN[i], Application.StartupPath + @"\backup\" + danhsachFILEDOWN[i]);
+                        File.Copy(Application.StartupPath + @"\" + danhsachFILEDOWN[i], Application.StartupPath + @"\backup\" + danhsachFILEDOWN[i],true);
                     }
                     ftpH.download("app/luutru/" + tentrenSERVER + "/" + danhsachFILEDOWN[i], Application.StartupPath + @"\" + danhsachFILEDOWN[i]);
                 }
